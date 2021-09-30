@@ -7,6 +7,7 @@
 #include "Structs.h"
 #include "Inventory.h"
 #include "InventoryInterface.h"
+#include "GameFramework/Actor.h"
 #include "Components/ActorComponent.h"
 #include "RPCBasedInventoryComponent.generated.h"
 
