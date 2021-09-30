@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Networked_Inventory",
+	"Description": "A pair of Actor Component inventories to use for networking.",
+	"Category": "Other",
+	"CreatedBy": "Toby Bailey",
+	"CreatedByURL": "https://tobyjb.dev",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Networked_Inventory",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
