@@ -13,13 +13,6 @@ enum class ESetStatus : uint8
 };
 
 UENUM(BlueprintType)
-enum class EHeartbeatStatus : uint8
-{
-	ServerMatchesClient UMETA(DisplayName = "Server Matches Client"),
-	ServerNeedsCorrection UMETA(DisplayName = "Server Needs Correction")
-};
-
-UENUM(BlueprintType)
 enum class EChangeStatus : uint8
 {
 	Success UMETA(DisplayName = "Success"),
