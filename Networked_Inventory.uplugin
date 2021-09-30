@@ -18,7 +18,12 @@
 		{
 			"Name": "Networked_Inventory",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Win32",
+				"Android"
+			]
 		}
 	]
 }
