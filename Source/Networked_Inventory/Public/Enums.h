@@ -39,11 +39,3 @@ enum class EAddStatus : uint8
 	Success UMETA(DisplayName = "Success"),
 	ItemAlreadyInInventory UMETA(DisplayName = "Item Already In Inventory")
 };
-
-UENUM(BlueprintType)
-enum class EPickupReplication : uint8
-{
-	OnlyOnClient UMETA(DisplayName = "Only On Client"),
-	OnlyOnServer UMETA(DisplayName = "Only On Server"),
-	OnClientAndServer UMETA(DisplayName = "On Client And Server")
-};
