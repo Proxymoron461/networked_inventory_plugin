@@ -12,7 +12,7 @@
 
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class NETWORKEDINVENTORY_API URPCBasedInventoryComponent : public UActorComponent, public IInventoryInterface
+class NETWORKED_INVENTORY_API URPCBasedInventoryComponent : public UActorComponent, public IInventoryInterface
 {
 	GENERATED_BODY()
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Enums.h"
+#include "Structs.h"
 #include "CoreMinimal.h"
 #include "Templates/Tuple.h"
 #include "Net/UnrealNetwork.h"
@@ -12,7 +13,7 @@
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class NETWORKEDINVENTORY_API UReplicationInventoryComponent : public UActorComponent, public IInventoryInterface
+class NETWORKED_INVENTORY_API UReplicationInventoryComponent : public UActorComponent, public IInventoryInterface
 {
 	GENERATED_BODY()
 

@@ -9,7 +9,7 @@
 
 // This class does not need to be modified.
 UINTERFACE(meta=(CannotImplementInterfaceInBlueprint))
-class UInventoryInterface : public UInterface
+class NETWORKED_INVENTORY_API UInventoryInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -17,7 +17,7 @@ class UInventoryInterface : public UInterface
 /**
  * 
  */
-class NETWORKEDINVENTORY_API IInventoryInterface
+class NETWORKED_INVENTORY_API IInventoryInterface
 {
 	GENERATED_BODY()
 
