@@ -56,6 +56,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Networked Inventory")
 		virtual FString ToString() const override;
 
+	UFUNCTION(BlueprintCallable, Category = "Networked Inventory")
+		int32 Num() const;
+
+	UFUNCTION(Category = "Networked Inventory")
+		bool Contains(const FName itemCode) const;
+
 protected:
 	virtual void BeginPlay() override;
 };

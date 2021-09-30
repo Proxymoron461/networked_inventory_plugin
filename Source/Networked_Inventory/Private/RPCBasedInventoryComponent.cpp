@@ -93,6 +93,16 @@ FString URPCBasedInventoryComponent::ToString() const
 	return mInventory->ToString();
 }
 
+int32 URPCBasedInventoryComponent::Num() const
+{
+	return mInventory->Num();
+}
+
+bool URPCBasedInventoryComponent::Contains(const FName itemCode) const
+{
+	return mInventory->Contains(itemCode);
+}
+
 void URPCBasedInventoryComponent::ModifyInventory(const TArray<FInventoryEntry>& inventoryChanges)
 {
 	Server_ModifyInventory(inventoryChanges);
