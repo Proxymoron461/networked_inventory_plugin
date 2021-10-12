@@ -20,11 +20,11 @@ class UInventory : public UObject
 private:
 	
 	UPROPERTY()
-		TMap<FName, int32> mInventoryEntries;
+		TMap<FName, int32> InventoryEntries;
 
 public:
-	UInventory() : mInventoryEntries(TMap<FName, int32>()) {}
-	UInventory(const TMap<FName, int32>& entries) : mInventoryEntries(entries) {}
+	UInventory() : InventoryEntries(TMap<FName, int32>()) {}
+	UInventory(const TMap<FName, int32>& entries) : InventoryEntries(entries) {}
 
 	//UFUNCTION(Category = "Networked Inventory")  // FIXME: Unrecognised type 'TTuple' - type must be a UCLASS, USTRUCT, or UENUM
 		TTuple<EChangeGroupStatus, TArray<EChangeStatus>> ModifyGroupOfEntries(const TArray<FInventoryEntry>& inventoryChanges);

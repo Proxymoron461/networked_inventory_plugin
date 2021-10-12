@@ -5,14 +5,14 @@
 
 void UReplicationInventoryComponent::RebuildCache()
 {
-	mLookupCache.Empty();
-	for (int32 i = 0; i < mInventoryArray.Num(); i++)
+	LookupCache.Empty();
+	for (int32 i = 0; i < InventoryArray.Num(); i++)
 	{
-		mLookupCache.Add(mInventoryArray[i].ItemCode, i);
-		check(mInventoryArray[i] == mInventoryArray[mLookupCache[mInventoryArray[i].ItemCode]]);
+		LookupCache.Add(InventoryArray[i].ItemCode, i);
+		check(InventoryArray[i] == InventoryArray[LookupCache[InventoryArray[i].ItemCode]]);
 	}
 
-	check(mLookupCache.Num() == mInventoryArray.Num());
+	check(LookupCache.Num() == InventoryArray.Num());
 }
 
 UReplicationInventoryComponent::UReplicationInventoryComponent()
@@ -26,7 +26,7 @@ UReplicationInventoryComponent::UReplicationInventoryComponent()
 void UReplicationInventoryComponent::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UReplicationInventoryComponent, mInventoryArray);
+	DOREPLIFETIME(UReplicationInventoryComponent, InventoryArray);
 }
 
 TTuple<EChangeGroupStatus, TArray<EChangeStatus>> UReplicationInventoryComponent::ModifyGroupOfEntries(const TArray<FInventoryEntry>& inventoryChanges)
@@ -120,10 +120,10 @@ EAddStatus UReplicationInventoryComponent::AddNewEntry(const FInventoryEntry& en
 		return EAddStatus::ItemAlreadyInInventory;
 	}
 
-	mInventoryArray.Add(entry);
-	mLookupCache[entry.ItemCode] = mInventoryArray.Num() - 1;
+	InventoryArray.Add(entry);
+	LookupCache[entry.ItemCode] = InventoryArray.Num() - 1;
 
-	check(mInventoryArray[mLookupCache[entry.ItemCode]] == entry);
+	check(InventoryArray[LookupCache[entry.ItemCode]] == entry);
 
 	return EAddStatus::Success;
 }
@@ -132,13 +132,13 @@ EChangeStatus UReplicationInventoryComponent::ModifyEntry(const FInventoryEntry&
 {
 	if (!Contains(entryChange.ItemCode))
 	{
-		mInventoryArray.Emplace(entryChange.ItemCode, 0);
-		mLookupCache.Add(entryChange.ItemCode, mInventoryArray.Num() - 1);
+		InventoryArray.Emplace(entryChange.ItemCode, 0);
+		LookupCache.Add(entryChange.ItemCode, InventoryArray.Num() - 1);
 	}
-	int32& quantityRef = mInventoryArray[mLookupCache[entryChange.ItemCode]].Quantity;
+	int32& quantityRef = InventoryArray[LookupCache[entryChange.ItemCode]].Quantity;
 	quantityRef += entryChange.Quantity;
 
-	check(quantityRef == mInventoryArray[mLookupCache[entryChange.ItemCode]].Quantity);
+	check(quantityRef == InventoryArray[LookupCache[entryChange.ItemCode]].Quantity);
 
 	if (quantityRef <= 0)
 	{
@@ -172,7 +172,7 @@ ERemovalStatus UReplicationInventoryComponent::RemoveItem(const FName itemCode)
 {
 	if (Contains(itemCode))
 	{
-		mInventoryArray.RemoveAt(mLookupCache[itemCode]);  // Exception coming from here, when using RemoveAtSwap()
+		InventoryArray.RemoveAt(LookupCache[itemCode]);  // Exception coming from here, when using RemoveAtSwap()
 		RebuildCache();  // Rebuild the cache entries
 		return ERemovalStatus::Success;
 	}
@@ -186,7 +186,7 @@ int32 UReplicationInventoryComponent::GetQuantityFor(const FName itemCode) const
 {
 	if (Contains(itemCode))
 	{
-		return mInventoryArray[mLookupCache[itemCode]].Quantity;
+		return InventoryArray[LookupCache[itemCode]].Quantity;
 	}
 	else
 	{
@@ -201,16 +201,16 @@ bool UReplicationInventoryComponent::Contains(const FName itemCode) const
 		{
 			return entry.ItemCode == itemCode;
 		};
-	check(static_cast<bool>(mInventoryArray.FindByPredicate(pred)) == mLookupCache.Contains(itemCode));
+	check(static_cast<bool>(InventoryArray.FindByPredicate(pred)) == LookupCache.Contains(itemCode));
 	);
 
-	return mLookupCache.Contains(itemCode);
+	return LookupCache.Contains(itemCode);
 }
 
 int32 UReplicationInventoryComponent::Num() const
 {
-	check(mInventoryArray.Num() == mLookupCache.Num());
-	return mInventoryArray.Num();
+	check(InventoryArray.Num() == LookupCache.Num());
+	return InventoryArray.Num();
 }
 
 void UReplicationInventoryComponent::ModifyInventory(const TArray<FInventoryEntry>& inventoryChanges)
@@ -221,7 +221,7 @@ void UReplicationInventoryComponent::ModifyInventory(const TArray<FInventoryEntr
 FString UReplicationInventoryComponent::ToString() const
 {
 	FString s = "{\n";
-	for (const auto& entry : mInventoryArray)
+	for (const auto& entry : InventoryArray)
 	{
 		s.Appendf(TEXT("\t%s: %i\n"), *entry.ItemCode.ToString(), entry.Quantity);
 	}

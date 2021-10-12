@@ -19,7 +19,7 @@ class NETWORKED_INVENTORY_API URPCBasedInventoryComponent : public UActorCompone
 
 private:
 	UPROPERTY()
-		UInventory* mInventory;
+		UInventory* Inventory;
 
 	UFUNCTION(Client, Reliable, Category = "Networked Inventory")
 		void Client_ModifyInventory(const TArray<FInventoryEntry>& inventoryChanges);
@@ -28,7 +28,7 @@ private:
 		void Server_ConfirmClientModification(EChangeGroupStatus clientStatus);
 
 	UFUNCTION(Client, Reliable, Category = "Networked Inventory")
-		void Client_SetInventory(const UInventory* inventory);
+		void Client_SetInventory(const UInventory* inventoryPtr);
 
 	UFUNCTION(Server, Reliable, Category = "Networked Inventory")
 		void Server_ConfirmClientSetInventory(ESetStatus clientStatus);

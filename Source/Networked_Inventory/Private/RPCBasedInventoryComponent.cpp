@@ -9,7 +9,7 @@ URPCBasedInventoryComponent::URPCBasedInventoryComponent()
 	// No need to tick.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	mInventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 }
 
 // Called when the game starts
@@ -55,7 +55,7 @@ void URPCBasedInventoryComponent::Client_ModifyInventory_Implementation(const TA
 		}
 	);
 
-	TTuple<EChangeGroupStatus, TArray<EChangeStatus>> pair = mInventory->ModifyGroupOfEntries(inventoryChanges);
+	TTuple<EChangeGroupStatus, TArray<EChangeStatus>> pair = Inventory->ModifyGroupOfEntries(inventoryChanges);
 
 	Server_ConfirmClientModification(pair.Key);
 }
@@ -73,7 +73,7 @@ void URPCBasedInventoryComponent::Server_ModifyInventory_Implementation(const TA
 		}
 	);
 
-	TTuple<EChangeGroupStatus, TArray<EChangeStatus>> pair = mInventory->ModifyGroupOfEntries(inventoryChanges);
+	TTuple<EChangeGroupStatus, TArray<EChangeStatus>> pair = Inventory->ModifyGroupOfEntries(inventoryChanges);
 
 	if (pair.Key != EChangeGroupStatus::AllSuccessful)
 	{
@@ -85,22 +85,22 @@ void URPCBasedInventoryComponent::Server_ModifyInventory_Implementation(const TA
 
 UInventory* URPCBasedInventoryComponent::GetInventory()
 {
-	return mInventory;
+	return Inventory;
 }
 
 FString URPCBasedInventoryComponent::ToString() const
 {
-	return mInventory->ToString();
+	return Inventory->ToString();
 }
 
 int32 URPCBasedInventoryComponent::Num() const
 {
-	return mInventory->Num();
+	return Inventory->Num();
 }
 
 bool URPCBasedInventoryComponent::Contains(const FName itemCode) const
 {
-	return mInventory->Contains(itemCode);
+	return Inventory->Contains(itemCode);
 }
 
 void URPCBasedInventoryComponent::ModifyInventory(const TArray<FInventoryEntry>& inventoryChanges)
@@ -149,10 +149,10 @@ void URPCBasedInventoryComponent::Server_SetClientInventory_Implementation()
 	Client_SetInventory(GetInventory());
 }
 
-void URPCBasedInventoryComponent::Client_SetInventory_Implementation(const UInventory* inventory)
+void URPCBasedInventoryComponent::Client_SetInventory_Implementation(const UInventory* inventoryPtr)
 {
 	ensure(GetOwner()->GetLocalRole() != ROLE_Authority);
-	mInventory = DuplicateObject<UInventory>(inventory, this, TEXT("Inventory"));
+	Inventory = DuplicateObject<UInventory>(inventoryPtr, this, TEXT("Inventory"));
 	Server_ConfirmClientSetInventory(ESetStatus::Success);
 }
 

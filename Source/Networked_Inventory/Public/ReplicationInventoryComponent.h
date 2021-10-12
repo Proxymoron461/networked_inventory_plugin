@@ -20,10 +20,10 @@ class NETWORKED_INVENTORY_API UReplicationInventoryComponent : public UActorComp
 private:
 
 	UPROPERTY(ReplicatedUsing = OnRep_InventoryArray)
-		TArray<FInventoryEntry> mInventoryArray;
+		TArray<FInventoryEntry> InventoryArray;
 
 	UPROPERTY()
-		TMap<FName, int32> mLookupCache;
+		TMap<FName, int32> LookupCache;
 
 	UFUNCTION()
 		void RebuildCache();

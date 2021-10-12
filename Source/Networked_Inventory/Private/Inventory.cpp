@@ -59,17 +59,17 @@ EAddStatus UInventory::AddNewEntry(const FInventoryEntry& entry)
 		return EAddStatus::ItemAlreadyInInventory;
 	}
 
-	mInventoryEntries[entry.ItemCode] = entry.Quantity;
+	InventoryEntries[entry.ItemCode] = entry.Quantity;
 
 	return EAddStatus::Success;
 }
 
 EChangeStatus UInventory::ModifyEntry(const FInventoryEntry& entryChange)
 {
-	int32& quantityRef = mInventoryEntries.FindOrAdd(entryChange.ItemCode, 0);
+	int32& quantityRef = InventoryEntries.FindOrAdd(entryChange.ItemCode, 0);
 	quantityRef += entryChange.Quantity;
 
-	check(quantityRef == mInventoryEntries[entryChange.ItemCode]);
+	check(quantityRef == InventoryEntries[entryChange.ItemCode]);
 
 	if (quantityRef <= 0)
 	{
@@ -101,9 +101,9 @@ TArray<ERemovalStatus> UInventory::RemoveGroupOfItems(const TArray<FName>& items
 
 ERemovalStatus UInventory::RemoveItem(const FName itemCode)
 {
-	if (mInventoryEntries.Contains(itemCode))
+	if (InventoryEntries.Contains(itemCode))
 	{
-		mInventoryEntries.Remove(itemCode);
+		InventoryEntries.Remove(itemCode);
 		return ERemovalStatus::Success;
 	}
 	else
@@ -114,28 +114,28 @@ ERemovalStatus UInventory::RemoveItem(const FName itemCode)
 
 int32 UInventory::GetQuantityFor(const FName itemCode) const
 {
-	return mInventoryEntries.FindRef(itemCode);  // TODO: Default value should be 0 - check!
+	return InventoryEntries.FindRef(itemCode);  // TODO: Default value should be 0 - check!
 }
 
 bool UInventory::Contains(const FName itemCode) const
 {
-	return mInventoryEntries.Contains(itemCode);
+	return InventoryEntries.Contains(itemCode);
 }
 
 const TMap<FName, int32>& UInventory::GetEntryMap() const
 {
-	return mInventoryEntries;
+	return InventoryEntries;
 }
 
 int32 UInventory::Num() const
 {
-	return mInventoryEntries.Num();
+	return InventoryEntries.Num();
 }
 
 FString UInventory::ToString() const
 {
 	FString s = "{\n";
-	for (const auto& pair : mInventoryEntries)
+	for (const auto& pair : InventoryEntries)
 	{
 		s.Appendf(TEXT("\t%s: %i\n"), *pair.Key.ToString(), pair.Value);
 	}
